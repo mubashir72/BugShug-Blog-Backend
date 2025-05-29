@@ -16,5 +16,6 @@ router
   .post(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor), createNewPost)
   .put(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor), updatePost)
   .delete(verifyRoles(ROLES_LIST.Admin), deletePost);
+
 router.route('/:id').get(getPost);
 module.exports = router;

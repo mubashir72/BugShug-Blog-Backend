@@ -50,18 +50,30 @@ const getAllPost = async (req, res) => {
   res.json(posts);
 };
 const getPost = async (req, res) => {
+  console.log('fkfkk');
   const id = req.params;
-  if (!id)
+
+  if (!req?.params?.id)
     return res.status(401).json({
       message: 'ID parameter required',
     });
   const post = await BlogPost.findOne({
-    _id: id,
+    _id: req.params.id,
   }).exec();
   if (!post)
-    return res.status(204).json({ message: `No post matches ID: ${ID}` });
+    return res.status(204).json({ message: `No post matches ID: ${id}` });
 
   res.json(post);
 };
-const deletePost = async (req, res) => {};
+const deletePost = async (req, res) => {
+  id = req.body;
+  if (!id) return res.status(400).json({ message: 'Blog id required' });
+
+  const post = await BlogPost.findOne({ _id: id }).exec();
+  if (!post)
+    return res.status(204).json({ message: `no post matches id ${id}` });
+
+  const result = BlogPost.deleteOne({ _id: id });
+  res.json(result);
+};
 module.exports = { getPost, getAllPost, createNewPost, updatePost, deletePost };
